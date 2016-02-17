@@ -1,0 +1,7 @@
+######################
+# CONFIGURATION FILE #
+######################
+
+slot:
+    max_players: 32
+    min_players: 1
