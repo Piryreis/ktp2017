@@ -7,14 +7,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Logger;
-
 /**
  * @author Val'entin.
  */
 public class Ktp2017 extends JavaPlugin {
 
-    public PluginManager pluginManager;
+    private PluginManager pluginManager;
     private static Ktp2017 instance;
 
     public static Ktp2017 getInstance() {
@@ -49,7 +47,7 @@ public class Ktp2017 extends JavaPlugin {
     }
 
     public static String getTag(){
-        return (ChatColor.AQUA + "[" + ChatColor.LIGHT_PURPLE + "Ktp2017" + ChatColor.AQUA + "] " + ChatColor.YELLOW);
+        return ChatColor.AQUA + "[" + ChatColor.LIGHT_PURPLE + "Ktp2017" + ChatColor.AQUA + "] " + ChatColor.YELLOW;
     }
 
     public Config getConfiguration(){

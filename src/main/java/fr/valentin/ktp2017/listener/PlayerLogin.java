@@ -18,7 +18,6 @@ public class PlayerLogin implements Listener {
     public void onPlayerLogin(PlayerLoginEvent event){
         Integer max_player = ktp2017.getConfiguration().slot_max_players;
         Integer players = ktp2017.getServer().getOnlinePlayers().size() + 1; // +1 pour compter le joueur en login
-        Ktp2017.log(players.toString());
         if (max_player <= players){
             event.disallow(PlayerLoginEvent.Result.KICK_FULL, ChatColor.RED + "La partie est remplie.");
         }

@@ -20,6 +20,6 @@ public class MessageUtil {
     public String getPlayers(){
         Integer max_players = Config.getInstance().slot_max_players;
         Integer players = ktp2017.getServer().getOnlinePlayers().size();
-        return (ChatColor.LIGHT_PURPLE + "[" + ChatColor.GREEN + players + ChatColor.LIGHT_PURPLE + "/" + ChatColor.GREEN + max_players + ChatColor.LIGHT_PURPLE + "]");
+        return ChatColor.LIGHT_PURPLE + "[" + ChatColor.GREEN + players + ChatColor.LIGHT_PURPLE + "/" + ChatColor.GREEN + max_players + ChatColor.LIGHT_PURPLE + "]";
     }
 }
