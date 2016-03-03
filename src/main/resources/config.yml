@@ -4,4 +4,14 @@
 
 slot:
     max_players: 32
-    min_players: 1
+    min_players: 2
+
+arena:
+    name:
+    worldborder:
+    world:
+    size:
+    center:
+        x:
+        y:
+        z:

@@ -4,3 +4,15 @@ version: 1.0-SNAPSHOT
 description: Plugin spigot pour le jeu Ktp2017
 
 main: fr.valentin.ktp2017.Ktp2017
+
+commands:
+    ktp2017:
+        description: Commandes pour le Ktp2017
+        aliases: ktp
+        usage: /ktp2017 <newGame|newArena>
+        permission: ktp2017.op
+
+permissions:
+    ktp2017.op:
+       description: Commandes et acces pour la configuration du Ktp2017
+       default: op
