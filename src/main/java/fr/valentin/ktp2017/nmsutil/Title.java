@@ -18,20 +18,20 @@ public class Title {
     private int stay;
     private int fadeOut;
 
-    public Title(PacketPlayOutTitle.EnumTitleAction action, IChatBaseComponent text, int fadeIn, int stay, int fadeOut){
+    public Title(PacketPlayOutTitle.EnumTitleAction action, String text, int fadeIn, int stay, int fadeOut){
         this.action = action;
-        this.text = text;
+        this.text = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + text + "\"}");;
         this.fadeIn = fadeIn;
         this.stay = stay;
         this.fadeOut = fadeOut;
     }
 
-    public Title(PacketPlayOutTitle.EnumTitleAction action, IChatBaseComponent text){
+    public Title(PacketPlayOutTitle.EnumTitleAction action, String text){
         this(action, text, -1, -1, -1);
     }
 
     public Title(int fadeIn, int stay, int fadeOut){
-        this(PacketPlayOutTitle.EnumTitleAction.TIMES, (IChatBaseComponent)null, fadeIn, stay, fadeOut);
+        this(PacketPlayOutTitle.EnumTitleAction.TIMES, (String)null, fadeIn, stay, fadeOut);
     }
 
 

@@ -1,6 +1,9 @@
 package fr.valentin.ktp2017;
 
+import fr.valentin.ktp2017.arena.ArenaManager;
+import fr.valentin.ktp2017.command.ktp2017Commands;
 import fr.valentin.ktp2017.config.Config;
+import fr.valentin.ktp2017.game.GameManager;
 import fr.valentin.ktp2017.listener.PlayerJoin;
 import fr.valentin.ktp2017.listener.PlayerLogin;
 import org.bukkit.ChatColor;
@@ -31,19 +34,22 @@ public class Ktp2017 extends JavaPlugin {
         pluginManager.registerEvents(new PlayerJoin(), this);
         pluginManager.registerEvents(new PlayerLogin(), this);
 
+        // Command
+        getCommand("ktp2017").setExecutor(new ktp2017Commands());
+
+        // Load
+        ArenaManager.loadArena();
+        GameManager.loadGame();
     }
 
     @Override
     public void onDisable(){
-
+        GameManager.removeGame();
+        ArenaManager.removeArena();
     }
 
     public static void log(String message){
         instance.getLogger().info(message);
-    }
-
-    public static void brodcastMessage(String message){
-        instance.getServer().broadcastMessage("§b[§cKtp2017§b] §e" + message);
     }
 
     public static String getTag(){
