@@ -15,11 +15,9 @@ public class MessageUtil {
     private MessageUtil(){}
 
     /**
-     * @return "[max_players/player]"
+     * @return "[players/max_player]"
      */
-    public String getPlayers(){
-        Integer max_players = Config.getInstance().slot_max_players;
-        Integer players = ktp2017.getServer().getOnlinePlayers().size();
-        return ChatColor.LIGHT_PURPLE + "[" + ChatColor.GREEN + players + ChatColor.LIGHT_PURPLE + "/" + ChatColor.GREEN + max_players + ChatColor.LIGHT_PURPLE + "]";
+    public String getPlayers(int players, int maxPlayer){
+        return ChatColor.LIGHT_PURPLE + "[" + ChatColor.GREEN + players + ChatColor.LIGHT_PURPLE + "/" + ChatColor.GREEN + maxPlayer + ChatColor.LIGHT_PURPLE + "]";
     }
 }

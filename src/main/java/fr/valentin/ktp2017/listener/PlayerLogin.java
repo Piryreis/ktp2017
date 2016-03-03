@@ -2,7 +2,9 @@ package fr.valentin.ktp2017.listener;
 
 import fr.valentin.ktp2017.Ktp2017;
 import fr.valentin.ktp2017.config.Config;
+import fr.valentin.ktp2017.game.GameManager;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -16,6 +18,11 @@ public class PlayerLogin implements Listener {
 
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event){
+        Player player = event.getPlayer();
+        if (GameManager.getGame() == null && !player.hasPermission("ktp2017.op")){
+            event.disallow(PlayerLoginEvent.Result.KICK_FULL, ChatColor.RED + "La partie n'est pas configurer"
+                    + ChatColor.GRAY + "\n veuillez contacter un administrateur");
+        }
         Integer max_player = ktp2017.getConfiguration().slot_max_players;
         Integer players = ktp2017.getServer().getOnlinePlayers().size() + 1; // +1 pour compter le joueur en login
         if (max_player <= players){
