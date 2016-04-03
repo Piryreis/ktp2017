@@ -1,45 +1,37 @@
 package fr.valentin.ktp2017.game;
 
-import fr.valentin.ktp2017.Ktp2017;
-import net.md_5.bungee.api.ChatColor;
+import fr.valentin.ktp2017.task.Ended;
+import fr.valentin.ktp2017.task.StartCooldown;
+import fr.valentin.ktp2017.task.Started;
+import fr.valentin.ktp2017.task.WaitingPlayer;
 
 /**
  * @author Val'entin.
  */
-public class GameScheduler implements Runnable {
+public class GameScheduler extends Thread {
 
-    private Game game;
+    private WaitingPlayer waitingPlayer;
+    private StartCooldown startCooldown;
+    private Started started;
+    private Ended ended;
 
     public GameScheduler(Game game){
-        this.game = game;
+        waitingPlayer = new WaitingPlayer(game);
+        startCooldown = new StartCooldown(game);
+        started = new Started(game);
+        ended = new Ended(game);
     }
 
+    @Override
     public void run() {
-        Ktp2017.log(game.gameStat.toString());
-        testMinPlayer();
+        waitingPlayer.run();
+        startCooldown.run();
+        started.run();
+        ended.run();
     }
 
     public void cancel(){
         Thread.interrupted();
-    }
-
-    private void testMinPlayer(){
-        if (game.gameStat.equals(GameManager.GameStat.WAITING_PLAYER)) {
-
-            GamePlayersList playersList = game.getPlayers();
-            int players = playersList.size();
-            int min_players = game.min_players;
-
-            if (players >= min_players){
-                game.gameStat = GameManager.GameStat.START_COOLDOWN;
-            }
-            else {
-                Ktp2017.log("salut");
-                playersList.sendActionBar(ChatColor.GOLD + "" + ChatColor.BOLD + "Il manque "
-                        + ChatColor.LIGHT_PURPLE + "" +ChatColor.BOLD + (min_players - players)
-                        + ChatColor.GOLD + "" + ChatColor.BOLD + "joueur(s)..");
-            }
-        }
     }
 
 }
