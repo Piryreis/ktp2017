@@ -7,13 +7,18 @@ import org.bukkit.Bukkit;
  */
 public class NMSReflection extends Reflection {
 
+    private NMSReflection() {
+        super();
+    }
+
     /**
      * Retourne la version du package net.minecraft.server.
      * @return
      */
     public static String getNMSVersion(){
+        String version;
         String name = Bukkit.getServer().getClass().getPackage().getName();
-        String version = name.substring(name.lastIndexOf('.') + 1);
+        version = name.substring(name.lastIndexOf('.') + 1);
         return version;
     }
 

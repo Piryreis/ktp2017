@@ -36,10 +36,11 @@ public class Title {
 
 
     public Object getPacket(){
+        Object packet;
         Class clazz = NMSReflection.getNMSClass("PacketPlayOutTitle");
         Class[] type = new Class[]{PacketPlayOutTitle.EnumTitleAction.class, IChatBaseComponent.class, int.class, int.class, int.class};
         Constructor constructor = Reflection.getConstructor(clazz, type);
-        Object packet = Reflection.getNewInstance(constructor, action, text, fadeIn, stay, fadeOut);
+        packet = Reflection.getNewInstance(constructor, action, text, fadeIn, stay, fadeOut);
         return packet;
     }
 

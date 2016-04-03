@@ -7,6 +7,8 @@ import java.lang.reflect.Constructor;
  */
 public class Reflection {
 
+    Reflection(){}
+
     /**
      * Retourne une class spécifiée.
      * @param name avec le chemin d'accès

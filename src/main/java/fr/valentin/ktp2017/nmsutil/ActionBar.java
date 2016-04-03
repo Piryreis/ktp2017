@@ -20,10 +20,11 @@ public class ActionBar {
     }
 
     public Object getPacket(){
+        Object packet;
         Class clazz = NMSReflection.getNMSClass("PacketPlayOutChat");
         Class[] type = new Class[]{IChatBaseComponent.class, byte.class};
         Constructor constructor = Reflection.getConstructor(clazz, type);
-        Object packet = Reflection.getNewInstance(constructor, text, position);
+        packet = Reflection.getNewInstance(constructor, text, position);
         return packet;
     }
 
