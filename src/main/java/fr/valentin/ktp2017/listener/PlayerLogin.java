@@ -1,7 +1,6 @@
 package fr.valentin.ktp2017.listener;
 
-import fr.valentin.ktp2017.Ktp2017;
-import fr.valentin.ktp2017.config.Config;
+import fr.valentin.ktp2017.game.Game;
 import fr.valentin.ktp2017.game.GameManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,20 +13,31 @@ import org.bukkit.event.player.PlayerLoginEvent;
  */
 public class PlayerLogin implements Listener {
 
-    private Ktp2017 ktp2017 = Ktp2017.getInstance();
-
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event){
         Player player = event.getPlayer();
-        if (GameManager.getGame() == null && !player.hasPermission("ktp2017.op")){
-            event.disallow(PlayerLoginEvent.Result.KICK_FULL, ChatColor.RED + "La partie n'est pas configurer"
-                    + ChatColor.GRAY + "\n veuillez contacter un administrateur");
+        Game game = GameManager.getGame();
+
+        if (GameManager.gameIsEmpty()){
+            if (!player.hasPermission("ktp2017.op")) {
+                event.disallow(PlayerLoginEvent.Result.KICK_FULL, ChatColor.RED + "La partie n'est pas configurer"
+                        + ChatColor.GRAY + "\n veuillez contacter un administrateur");
+            }
         }
-        Integer max_player = ktp2017.getConfiguration().slot_max_players;
-        Integer players = ktp2017.getServer().getOnlinePlayers().size() + 1; // +1 pour compter le joueur en login
-        if (max_player <= players){
-            event.disallow(PlayerLoginEvent.Result.KICK_FULL, ChatColor.RED + "La partie est remplie.");
+        else {
+            if (game.getGameStat().equals(GameManager.GameStat.WAITING_PLAYER) || game.getGameStat().equals(GameManager.GameStat.START_COOLDOWN)){
+                Integer maxPlayer = game.getMaxPlayers();
+                Integer players = game.getPlayers().size() + 1; // +1 pour compter le joueur en login
+                if (maxPlayer <= players){
+                    event.disallow(PlayerLoginEvent.Result.KICK_FULL, ChatColor.RED + "La partie est remplie.");
+                }
+            }
+            else if (game.getGameStat().equals(GameManager.GameStat.STARTED) || game.getGameStat().equals(GameManager.GameStat.ENDED)){
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.RED + "La partie est déjà commencée.");
+            }
+
         }
+
     }
 
 }

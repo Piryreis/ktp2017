@@ -1,13 +1,15 @@
 package fr.valentin.ktp2017.listener;
 
 import fr.valentin.ktp2017.Ktp2017;
-import fr.valentin.ktp2017.config.Config;
+import fr.valentin.ktp2017.game.Game;
 import fr.valentin.ktp2017.game.GameManager;
-import fr.valentin.ktp2017.nmsutil.ActionBar;
 import fr.valentin.ktp2017.nmsutil.Title;
 import fr.valentin.ktp2017.util.MessageUtil;
-import net.minecraft.server.v1_8_R2.*;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R2.PlayerConnection;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,13 +32,24 @@ public class PlayerJoin implements Listener {
         playerConnection.sendPacket((Packet) title.getPacket());
         playerConnection.sendPacket((Packet) subTitle.getPacket());
 
-        if (GameManager.getGame() != null) {
-            if(GameManager.getGame().gameStat.equals(GameManager.GameStat.WAITING_PLAYER)){
-                GameManager.getGame().getPlayers().add(player);
+        if (!GameManager.gameIsEmpty()) {
+            Game game = GameManager.getGame();
+            if(game.getGameStat().equals(GameManager.GameStat.WAITING_PLAYER)){
+                game.getPlayers().add(player);
                 int players = GameManager.getGame().getPlayers().size();
-                int maxPlayers = GameManager.getGame().max_players;
-                String players_stats = MessageUtil.getInstance().getPlayers(players, maxPlayers);
-                event.setJoinMessage(Ktp2017.getTag() + "Le joueur " + player.getDisplayName() + " vient de se connecter. " + players_stats);
+                int maxPlayers = GameManager.getGame().getMaxPlayers();
+                String playersStats = MessageUtil.getPlayersOnMaxplayersWithColors(players, maxPlayers);
+                event.setJoinMessage(Ktp2017.getTag() + "Le joueur " + player.getDisplayName() + " vient de se connecter. " + playersStats);
+                player.teleport(GameManager.getGame().getArena().getCenter());
+                player.sendMessage(Ktp2017.getTag() + "Bienvenue sur l'arene: " + ChatColor.AQUA + game.getArena().getName() + ChatColor.YELLOW + ".");
+
+                player.setGameMode(GameMode.ADVENTURE);
+                player.setMaxHealth(1.0);
+                player.setHealthScale(1);
+                player.setHealth(1.0);
+                player.setSaturation(20);
+                player.getInventory().clear();
+
             }
         }
         else {
