@@ -6,6 +6,11 @@ slot:
     max_players: 32
     min_players: 2
 
+game:
+    # Durée en minute(s)
+    duration: 5
+    restart: true
+
 arena:
     name:
     worldborder:

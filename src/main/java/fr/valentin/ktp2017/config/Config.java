@@ -1,9 +1,6 @@
 package fr.valentin.ktp2017.config;
 
 import fr.valentin.ktp2017.Ktp2017;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -27,6 +24,14 @@ public class Config {
      */
     public Integer slot_max_players = getConfig().getInt("slot.max_players");
     public Integer slot_min_players = getConfig().getInt("slot.min_players");
+
+    /*
+     * game:
+     *     duration:
+     *     restart:
+     */
+    public int game_duration = getConfig().getInt("game.duration");
+    public boolean game_restart = getConfig().getBoolean("game.restart");
 
     /*
      * arena:
