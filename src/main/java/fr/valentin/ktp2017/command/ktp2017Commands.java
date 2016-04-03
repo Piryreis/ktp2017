@@ -3,6 +3,10 @@ package fr.valentin.ktp2017.command;
 import fr.valentin.ktp2017.Ktp2017;
 import fr.valentin.ktp2017.arena.ArenaManager;
 import fr.valentin.ktp2017.game.GameManager;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -20,6 +24,12 @@ public class ktp2017Commands implements CommandExecutor {
 
     private Ktp2017 ktp2017 = Ktp2017.getInstance();
 
+    private static final HashMap<String, String> getHelp =  new HashMap<String, String>();
+    static {
+        getHelp.put("newGame", "/ktp2017 newGame");
+        getHelp.put("newArena", "/ktp2017 newArena <name> <size> <worldborder(true|false)>");
+    }
+
     public ktp2017Commands(){
         Command command = ktp2017.getCommand("ktp2017");
 
@@ -29,6 +39,7 @@ public class ktp2017Commands implements CommandExecutor {
         command.setUsage(Ktp2017.getTag() + command.getUsage());
     }
 
+    @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (!(commandSender instanceof Player)){
             commandSender.sendMessage(Ktp2017.getTag() + ChatColor.RED + "Erreur: Vous devez être un joueur pour effectuer cette commande.");
@@ -47,10 +58,14 @@ public class ktp2017Commands implements CommandExecutor {
 
         // /ktp2017 newGame ...
         if (args[0].equalsIgnoreCase("newGame")){
-            if (ArenaManager.getArena() == null){
+            if (ArenaManager.arenaIsEmpty()){
                 player.sendMessage(Ktp2017.getTag() + ChatColor.RED + "Erreur: Veuillez configurer une arène.");
                 player.sendMessage(Ktp2017.getTag() + getHelp.get("newArena"));
-            } else {
+            }
+            else if (!GameManager.gameIsEmpty()){
+                player.sendMessage(Ktp2017.getTag() + ChatColor.RED + "Erreur: Une partie existe déjà, veuillez redémarrer le plugin pour pouvoir faire cela.");
+            }
+            else {
                 GameManager.loadGame();
                 player.sendMessage(Ktp2017.getTag() + ChatColor.GREEN + "Nouvelle partie démarré, les joueurs peuvent rejoindre la partie.");
                 player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "Veullez vous reconnectez pour pouvoir rentrer dans la partie.");
@@ -67,7 +82,28 @@ public class ktp2017Commands implements CommandExecutor {
                 Location center = player.getLocation();
 
                 ArenaManager.newArena(name, center, size, worldborder);
-                player.sendMessage(Ktp2017.getTag() + ChatColor.GREEN + "L'arène est bien été crée.");
+
+                TextComponent message = new TextComponent(Ktp2017.getTag() + ChatColor.GREEN + "L'arène est bien été crée. \n");
+
+                TextComponent saveArenaInConfigComponent = new TextComponent("[Enregistrer]");
+                saveArenaInConfigComponent.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+                saveArenaInConfigComponent.setBold(true);
+                saveArenaInConfigComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        new ComponentBuilder("Enregistrer dans le fichier configuration").create()));
+                saveArenaInConfigComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ktp2017 saveArenaInConfig"));
+                message.addExtra(saveArenaInConfigComponent);
+
+                message.addExtra(" ");
+
+                TextComponent newgameComponent = new TextComponent("[Démarrer]");
+                newgameComponent.setColor(net.md_5.bungee.api.ChatColor.LIGHT_PURPLE);
+                newgameComponent.setBold(true);
+                newgameComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        new ComponentBuilder("Démarrer une partie").create()));
+                newgameComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ktp2017 newgame"));
+                message.addExtra(newgameComponent);
+
+                player.spigot().sendMessage(message);
 
             } catch (Exception e){
                 player.sendMessage(Ktp2017.getTag() + ChatColor.RED + "Erreur: Veuillez bien remplir les arguments.");
@@ -76,13 +112,18 @@ public class ktp2017Commands implements CommandExecutor {
             return true;
         }
 
-        return false;
-    }
+        if (args[0].equalsIgnoreCase("saveArenaInConfig")){
+            if (ArenaManager.arenaIsEmpty()){
+                player.sendMessage(Ktp2017.getTag() + ChatColor.RED + "Erreur : Aucune arène crée.");
+                player.sendMessage(Ktp2017.getTag() + getHelp.get("newArena"));
+            }
+            else {
+                ArenaManager.saveArenaInConfig();
+            }
+            return true;
+        }
 
-    private static HashMap<String, String> getHelp =  new HashMap<String, String>();
-    static {
-        getHelp.put("newGame", "/ktp2017 newGame");
-        getHelp.put("newArena", "/ktp2017 newArena <name> <size> <worldborder(true|false)>");
+        return false;
     }
 
 }
