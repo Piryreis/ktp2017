@@ -19,9 +19,6 @@ public class Ktp2017 extends JavaPlugin {
     private static Ktp2017 instance;
 
     public static Ktp2017 getInstance() {
-        if (instance == null) {
-            instance = new Ktp2017();
-        }
         return instance;
     }
 
@@ -34,13 +31,13 @@ public class Ktp2017 extends JavaPlugin {
         saveDefaultConfig();
 
         // Events Listeners
-        pluginManager.registerEvents(new PlayerJoin(), this);
-        pluginManager.registerEvents(new PlayerLogin(), this);
-        pluginManager.registerEvents(new PlayerQuit(), this);
-        pluginManager.registerEvents(new EntityDomage(), this);
-        pluginManager.registerEvents(new PlayerDeath(), this);
-        pluginManager.registerEvents(new PlayerMove(), this);
-        pluginManager.registerEvents(new GameWon(), this);
+        pluginManager.registerEvents(new PlayerJoinListener(), this);
+        pluginManager.registerEvents(new PlayerLoginListener(), this);
+        pluginManager.registerEvents(new PlayerQuitListener(), this);
+        pluginManager.registerEvents(new EntityDamageListener(), this);
+        pluginManager.registerEvents(new PlayerDeathListener(), this);
+        pluginManager.registerEvents(new PlayerMoveListener(), this);
+        pluginManager.registerEvents(new GameWonListener(), this);
 
         // Command
         getCommand("ktp2017").setExecutor(new ktp2017Commands());
