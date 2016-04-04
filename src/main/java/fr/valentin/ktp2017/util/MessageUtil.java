@@ -1,9 +1,7 @@
 package fr.valentin.ktp2017.util;
 
-import fr.valentin.ktp2017.Ktp2017;
 import org.bukkit.ChatColor;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -12,12 +10,7 @@ import java.text.DecimalFormat;
 public class MessageUtil {
 
     private MessageUtil(){}
-    /**
-     * @return "[players/max_player]"
-     */
-    public static String getPlayersOnMaxplayersWithColors(int players, int maxPlayer){
-        return ChatColor.LIGHT_PURPLE + "[" + ChatColor.GREEN + players + ChatColor.LIGHT_PURPLE + "/" + ChatColor.GREEN + maxPlayer + ChatColor.LIGHT_PURPLE + "]";
-    }
+
 
     public static String getTimeFormat(int seconde){
         String timeFormat;
