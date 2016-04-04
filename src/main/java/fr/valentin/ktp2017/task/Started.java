@@ -5,7 +5,7 @@ import fr.valentin.ktp2017.event.GameWonEvent;
 import fr.valentin.ktp2017.game.Game;
 import fr.valentin.ktp2017.game.GameManager;
 import fr.valentin.ktp2017.game.GamePlayersList;
-import fr.valentin.ktp2017.util.Cooldown;
+import fr.valentin.ktp2017.util.BukkitCooldown;
 import fr.valentin.ktp2017.util.MessageUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -17,11 +17,11 @@ import org.bukkit.entity.Player;
 public class Started implements Task {
 
     private Game game;
-    private Cooldown cooldown;
+    private BukkitCooldown cooldown;
 
     public Started(Game game){
         this.game = game;
-        cooldown = new Cooldown(60 * game.getDuration());
+        cooldown = new BukkitCooldown(Ktp2017.getInstance(), 60 * game.getDuration());
     }
 
     @Override

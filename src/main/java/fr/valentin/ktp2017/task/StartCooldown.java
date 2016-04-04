@@ -4,7 +4,7 @@ import fr.valentin.ktp2017.Ktp2017;
 import fr.valentin.ktp2017.game.Game;
 import fr.valentin.ktp2017.game.GameManager;
 import fr.valentin.ktp2017.game.GamePlayersList;
-import fr.valentin.ktp2017.util.Cooldown;
+import fr.valentin.ktp2017.util.BukkitCooldown;
 import net.md_5.bungee.api.ChatColor;
 
 /**
@@ -13,11 +13,11 @@ import net.md_5.bungee.api.ChatColor;
 public class StartCooldown implements Task {
 
     private Game game;
-    private Cooldown cooldown;
+    private BukkitCooldown cooldown;
 
     public StartCooldown(Game game){
         this.game = game;
-        this.cooldown = new Cooldown(45);
+        this.cooldown = new BukkitCooldown(Ktp2017.getInstance(), 45);
     }
 
     @Override
@@ -34,9 +34,8 @@ public class StartCooldown implements Task {
 
             if (players < minPlayers){
                 game.setGameStat(GameManager.GameStat.WAITING_PLAYER);
-                int defaultTime = cooldown.getDefaultTime();
-                cooldown.end();
-                cooldown = new Cooldown(defaultTime);
+                cooldown.pause();
+                cooldown.reset();
                 Ktp2017.broadcastMessage("Il n'y a plus assez de joueur.");
                 return;
             }
