@@ -13,7 +13,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 /**
  * @author Val'entin.
  */
-public class PlayerDeath implements Listener {
+public class PlayerDeathListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event){

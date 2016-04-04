@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 /**
  * @author Val'entin.
  */
-public class PlayerMove implements Listener {
+public class PlayerMoveListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){

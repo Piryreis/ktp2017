@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 /**
  * @author Val'entin.
  */
-public class PlayerQuit implements Listener {
+public class PlayerQuitListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){

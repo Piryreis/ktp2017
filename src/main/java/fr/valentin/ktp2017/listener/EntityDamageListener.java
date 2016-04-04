@@ -6,6 +6,7 @@ import fr.valentin.ktp2017.game.GameManager;
 import fr.valentin.ktp2017.util.MessageUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +17,7 @@ import java.util.EnumMap;
 /**
  * @author Val'entin.
  */
-public class EntityDomage implements Listener {
+public class EntityDamageListener implements Listener {
 
     private static EnumMap<EntityDamageEvent.DamageCause, String> causeMessage = new EnumMap<EntityDamageEvent.DamageCause, String>(EntityDamageEvent.DamageCause.class);
     static {
@@ -26,9 +27,9 @@ public class EntityDomage implements Listener {
     }
 
     @EventHandler
-    public void onEntityDomage(EntityDamageEvent event){
+    public void onEntityDamage(EntityDamageEvent event){
         Game game = GameManager.getGame();
-        if (event.getEntity() instanceof Player){
+        if (event.getEntity().getType().equals(EntityType.PLAYER)){
             if (!GameManager.gameIsEmpty() && game.getGameStat().equals(GameManager.GameStat.STARTED)){
                 Player player = (Player) event.getEntity();
                 if (event.getDamage() > player.getHealth()){

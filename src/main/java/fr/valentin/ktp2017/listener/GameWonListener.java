@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 /**
  * @author Val'entin.
  */
-public class GameWon implements Listener {
+public class GameWonListener implements Listener {
 
     @EventHandler
     public void onGameWon(GameWonEvent event){

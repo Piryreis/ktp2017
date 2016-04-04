@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 /**
  * @author Val'entin.
  */
-public class PlayerLogin implements Listener {
+public class PlayerLoginListener implements Listener {
 
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event){

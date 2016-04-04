@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 /**
  * @author Val'entin.
  */
-public class PlayerJoin implements Listener {
+public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
@@ -38,7 +38,8 @@ public class PlayerJoin implements Listener {
                 game.getPlayers().add(player);
                 int players = GameManager.getGame().getPlayers().size();
                 int maxPlayers = GameManager.getGame().getMaxPlayers();
-                String playersStats = MessageUtil.getPlayersOnMaxplayersWithColors(players, maxPlayers);
+                String playersStats =  ChatColor.LIGHT_PURPLE + "[" + ChatColor.GREEN + players + ChatColor.LIGHT_PURPLE
+                        + "/" + ChatColor.GREEN + maxPlayers + ChatColor.LIGHT_PURPLE + "]";
                 event.setJoinMessage(Ktp2017.getTag() + "Le joueur " + player.getDisplayName() + " vient de se connecter. " + playersStats);
                 player.teleport(GameManager.getGame().getArena().getCenter());
                 player.sendMessage(Ktp2017.getTag() + "Bienvenue sur l'arene: " + ChatColor.AQUA + game.getArena().getName() + ChatColor.YELLOW + ".");
@@ -56,5 +57,4 @@ public class PlayerJoin implements Listener {
             event.setJoinMessage(Ktp2017.getTag() + "Le joueur " + player.getDisplayName() + " vient de se connecter.");
         }
     }
-
 }
